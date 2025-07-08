@@ -52,7 +52,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
-        print("error: \(error.localizedDescription)")
+        print("error: \(error.localizedDescription) code:\(error._code)")
     }
 }
 
