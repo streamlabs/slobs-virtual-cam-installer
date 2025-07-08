@@ -3,8 +3,7 @@
 This Swift application installs the mac-camera-system-extension.
 
 # How to Build
-cmake --preset macos
-cmake --build build --preset macos
+Run the `build.sh` script
 
 # How to run
 
