@@ -1,0 +1,36 @@
+{
+  "version": 5,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 22,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "environmentVars",
+      "hidden": true
+    },
+    {
+      "name": "macos",
+      "displayName": "macOS",
+      "description": "Default macOS build (single architecture only)",
+      "inherits": ["environmentVars"],
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+      },
+      "generator": "Xcode",
+      "binaryDir": "${sourceDir}/build"
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "macos",
+      "configurePreset": "macos",
+      "displayName": "MacOS",
+      "description": "Default macOS build (single architecture only)",
+      "configuration": "RelWithDebInfo"
+    }
+  ]
+}
