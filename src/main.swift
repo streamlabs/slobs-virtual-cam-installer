@@ -6,6 +6,7 @@ import os.log
 class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func activate() {
+        state = InstallState.installing
         let activationRequest = OSSystemExtensionRequest.activationRequest(
             forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
         activationRequest.delegate = self
@@ -13,6 +14,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     }
 
     func deactivate() {
+        state = InstallState.uninstalling
         let activationRequest = OSSystemExtensionRequest.deactivationRequest(
             forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
         activationRequest.delegate = self
@@ -43,7 +45,11 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     ) {
         switch result {
         case OSSystemExtensionRequest.Result.completed:
-            print("System extension was installed successfully.")
+            if (state == InstallState.installing) {
+                print("System extension was installed successfully.")
+            } else if (state == InstallState.uninstalling) {
+                print("System extension was uninstalled successfully.")
+            }
         case OSSystemExtensionRequest.Result.willCompleteAfterReboot:
             print("System extension will complete after reboot.")
         @unknown default:
@@ -54,16 +60,28 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
     }
+    
+    enum InstallState {
+        case unknown
+        case installing
+        case uninstalling
+    }
+    var state : InstallState = InstallState.unknown
 }
 
 let installer = ExtensionManager()
 let dispatchGroup = DispatchGroup()
 dispatchGroup.enter()
 
-installer.activate()
+let arguments = CommandLine.arguments
+if arguments.count > 1 && arguments[1] == "--deactivate" {
+    installer.deactivate()
+} else {
+    installer.activate()
+}
 
 // Wait asynchronously
 dispatchGroup.notify(queue: .main) {
     print("Operation complete.")
 }
-RunLoop.main.run(until: Date().addingTimeInterval(10))  // Give the script time to wait
+RunLoop.main.run(until: Date().addingTimeInterval(10))  // Give the script time to wait on the callback
