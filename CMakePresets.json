@@ -21,7 +21,10 @@
         "rhs": "Darwin"
       },
       "generator": "Xcode",
-      "binaryDir": "${sourceDir}/build"
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CAMERA_EXTENSION_GIT_TAG_VER": {"type": "STRING", "value": "30.2.4sl22-vcam-sysext2"}
+      }
     }
   ],
   "buildPresets": [

@@ -38,7 +38,7 @@ set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM $ENV{APPLE_TEAM_ID})
 # Run shell script to install the mac-camera-extension
 add_custom_target(run_script ALL
     COMMAND ${CMAKE_COMMAND} -E echo "Running the shell script..."
-    COMMAND bash "./install-mac-camera-ext.sh"
+    COMMAND bash "./install-mac-camera-ext.sh" "${CAMERA_EXTENSION_GIT_TAG_VER}"
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     COMMENT "Executing script.sh from CMake"
 )

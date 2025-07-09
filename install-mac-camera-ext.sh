@@ -1,6 +1,7 @@
 
 cd build
-git clone --branch 30.2.4sl22-vcam-sysext2 --depth 1 https://github.com/streamlabs/obs-studio.git
+echo "Download mac_camera_extension using git tag $1"
+git clone --branch "$1" --depth 1 https://github.com/streamlabs/obs-studio.git
 
 root=$(pwd)
 echo "Starting directory is $root"
