@@ -17,6 +17,7 @@ jobs:
       - name: "Release"
         run: |
           pwd
+          ls
           ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
