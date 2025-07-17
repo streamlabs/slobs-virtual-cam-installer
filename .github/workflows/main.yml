@@ -1,7 +1,6 @@
 name: Mac Release
 
-on:
-  workflow_call:
+on: [push]
 
 jobs:
   mac_release:
