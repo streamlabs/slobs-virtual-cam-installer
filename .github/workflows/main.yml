@@ -16,6 +16,7 @@ jobs:
           node-version: "18.x"
       - name: "Release"
         run: |
+          pwd
           ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
