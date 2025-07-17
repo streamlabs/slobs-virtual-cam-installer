@@ -20,6 +20,8 @@ jobs:
           echo "Show current folder contents"
           cd ..
           ls
+          git fetch origin --no-tags --no-recurse-submodules -q
+          ls
           ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
