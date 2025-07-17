@@ -17,6 +17,7 @@ jobs:
       - name: "Release"
         run: |
           pwd
+          echo "Show current folder contents"
           ls
           ./build.sh
         env:
