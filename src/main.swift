@@ -5,7 +5,7 @@ import os.log
 
 class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
-    func activate() {
+    func activatedsfdfdsfsdf() {
         state = InstallState.installing
         let activationRequest = OSSystemExtensionRequest.activationRequest(
             forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
@@ -13,7 +13,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         OSSystemExtensionManager.shared.submitRequest(activationRequest)
     }
 
-    func deactivate() {
+    func deactivatesfdsfsfd() {
         state = InstallState.uninstalling
         let activationRequest = OSSystemExtensionRequest.deactivationRequest(
             forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
@@ -45,9 +45,9 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     ) {
         switch result {
         case OSSystemExtensionRequest.Result.completed:
-            if (state == InstallState.installing) {
+            if state == InstallState.installing {
                 print("System extension was installed successfully.")
-            } else if (state == InstallState.uninstalling) {
+            } else if state == InstallState.uninstalling {
                 print("System extension was uninstalled successfully.")
             }
         case OSSystemExtensionRequest.Result.willCompleteAfterReboot:
@@ -60,13 +60,13 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
     }
-    
+
     enum InstallState {
         case unknown
         case installing
         case uninstalling
     }
-    var state : InstallState = InstallState.unknown
+    var state: InstallState = InstallState.unknown
 }
 
 let installer = ExtensionManager()
