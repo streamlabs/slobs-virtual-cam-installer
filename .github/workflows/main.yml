@@ -15,7 +15,8 @@ jobs:
         with:
           node-version: "18.x"
       - name: "Release"
-        run: ./build.sh
+        run: |
+          ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
           APPLE_ASC_PROVIDER: ${{ secrets.APPLE_ASC_PROVIDER }}
