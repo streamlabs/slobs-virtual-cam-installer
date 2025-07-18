@@ -29,6 +29,7 @@ set_target_properties(
              XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist"
              XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 
+if(DEFINED ENV{APPLE_TEAM_ID})
 # Switch to automatic codesigning via valid team ID
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
 set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
@@ -42,3 +43,4 @@ add_custom_target(run_script ALL
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     COMMENT "Executing script.sh from CMake"
 )
+endif()
