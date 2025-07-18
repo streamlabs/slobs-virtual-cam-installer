@@ -30,6 +30,7 @@ if(teamId STREQUAL "")
                 MACOSX_BUNDLE ON
                 XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 else()
+    message(STATUS "APPLE_TEAM_ID is set. Setup codesign for xcode project")
     set_target_properties(
     SlobsVirtualCamInstaller
     PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
