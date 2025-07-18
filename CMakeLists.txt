@@ -20,7 +20,7 @@ target_link_libraries(SlobsVirtualCamInstaller PRIVATE
     swiftFoundation
 )
 
-if(DEFINED ENV{APPLE_TEAM_ID})
+if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
     message(STATUS "APPLE_TEAM_ID is set. Setup codesign for xcode project")
     set_target_properties(
     SlobsVirtualCamInstaller
