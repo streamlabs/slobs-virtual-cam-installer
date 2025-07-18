@@ -20,9 +20,8 @@ target_link_libraries(SlobsVirtualCamInstaller PRIVATE
     swiftFoundation
 )
 
-set(teamId $ENV{APPLE_TEAM_ID})
-if(teamId STREQUAL "")
-    message(WARNING "APPLE_TEAM_ID is not set or empty.")
+if(!DEFINED ENV{APPLE_TEAM_ID})
+    message(STATUS "APPLE_TEAM_ID is not set. Do not codesign the xcodeproj")
     set_target_properties(
     SlobsVirtualCamInstaller
     PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
