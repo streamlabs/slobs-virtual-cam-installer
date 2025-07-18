@@ -20,15 +20,7 @@ target_link_libraries(SlobsVirtualCamInstaller PRIVATE
     swiftFoundation
 )
 
-if(!DEFINED ENV{APPLE_TEAM_ID})
-    message(STATUS "APPLE_TEAM_ID is not set. Do not codesign the xcodeproj")
-    set_target_properties(
-    SlobsVirtualCamInstaller
-    PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
-                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-                MACOSX_BUNDLE ON
-                XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
-else()
+if(DEFINED ENV{APPLE_TEAM_ID})
     message(STATUS "APPLE_TEAM_ID is set. Setup codesign for xcode project")
     set_target_properties(
     SlobsVirtualCamInstaller
@@ -53,4 +45,12 @@ else()
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         COMMENT "Executing script.sh from CMake"
     )
+else()
+    message(STATUS "APPLE_TEAM_ID is not set. Do not codesign the xcodeproj")
+    set_target_properties(
+    SlobsVirtualCamInstaller
+    PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+                MACOSX_BUNDLE ON
+                XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 endif()
