@@ -1,7 +1,6 @@
 name: Mac Release
 
-on:
-  workflow_call:
+on: [push]
 
 jobs:
   mac_release:
@@ -15,17 +14,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "18.x"
-      - uses: apple-actions/import-codesign-certs@v3
-        with:
-          p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_P12 }}
-          p12-password: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
-      - uses: actions/checkout@v4
-      - name: "Install Dependencies"
-        run: yarn install --frozen-lockfile --check-files 2>&1
-      - name: Add Python 2 to PYTHON_PATH
-        run: echo "PYTHON_PATH=$(which python2)" >> $GITHUB_ENV
+      - name: Check out repository
+        uses: actions/checkout@v3
       - name: "Release"
-        run: ./build.sh
+        run: |
+          echo "Build the project"
+          ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
           APPLE_ASC_PROVIDER: ${{ secrets.APPLE_ASC_PROVIDER }}
