@@ -19,20 +19,26 @@ target_link_libraries(SlobsVirtualCamInstaller PRIVATE
     swiftFoundation
 )
 
-set_target_properties(
-  SlobsVirtualCamInstaller
-  PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
-             RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-             MACOSX_BUNDLE ON
-             MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist"
-             XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.streamlabs.slobs
-             XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist"
-             XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
-
 set(teamId $ENV{APPLE_TEAM_ID})
 if(teamId STREQUAL "")
     message(WARNING "APPLE_TEAM_ID is not set or empty.")
+    set_target_properties(
+    SlobsVirtualCamInstaller
+    PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+                MACOSX_BUNDLE ON
+                XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 else()
+    set_target_properties(
+    SlobsVirtualCamInstaller
+    PROPERTIES OUTPUT_NAME slobs-virtual-cam-installer
+                RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+                MACOSX_BUNDLE ON
+                MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist"
+                XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.streamlabs.slobs
+                XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist"
+                XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
+
     # Switch to automatic codesigning via valid team ID
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
