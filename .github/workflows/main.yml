@@ -18,8 +18,7 @@ jobs:
         uses: actions/checkout@v3
       - name: "Release"
         run: |
-          echo "Show current folder contents"
-          git fetch origin --no-tags --no-recurse-submodules -q
+          echo "Build the project"
           ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
