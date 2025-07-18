@@ -8,6 +8,7 @@ set(SOURCES
 
 add_executable(SlobsVirtualCamInstaller ${SOURCES})
 
+message(STATUS "Setup xcode attributes.")
 target_compile_options(SlobsVirtualCamInstaller PRIVATE
     -swift-version 5
     -O
