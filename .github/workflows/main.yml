@@ -21,7 +21,7 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.APPLE_DEVELOPER_ID_P12 }}
           p12-password: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
-      - name: Set up provisioning profile
+      - name: Set up provisioning profile for xcode
         run: |
           mkdir -p "~/Library/Developer/Xcode/UserData/Provisioning\ Profiles"
           echo "${{ secrets.APPLE_DEVELOPER_PROVISIONING_PROFILE }}" | base64 --decode > ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/Profile.mobileprovision
