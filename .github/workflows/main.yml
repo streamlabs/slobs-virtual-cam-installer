@@ -3,7 +3,7 @@ name: Mac Release
 on: [push]
 
 env:
-  RELEASE_BUCKET: "obsstudionodes3.streamlabs.com" # Reuse the OSN bucket
+  RELEASE_BUCKET: "obs-studio-deployment" # use this bucket since this repo hopefully won't be updated often
   SLDistributeDirectory: distribute
   SLFullDistributePath: "build"
   PACKAGE_NAME: slobs-vcam-installer
