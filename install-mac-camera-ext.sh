@@ -8,6 +8,7 @@ echo "Starting directory is $root"
 cd obs-studio/plugins/mac-virtualcam/src/camera-extension 
 
 echo "Build the mac-camera-extension"
+arch
 ./build-slobs-cameraextension.sh
 
 echo "Copy system extension into the app bundle at Contents/Library/SystemExtensions folder"
