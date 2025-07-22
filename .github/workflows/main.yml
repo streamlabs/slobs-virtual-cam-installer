@@ -16,6 +16,11 @@ jobs:
           node-version: "18.x"
       - name: Check out repository
         uses: actions/checkout@v3
+      - name: Install certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-file-base64: ${{ secrets.CERTIFICATE_P12 }}
+          p12-password: ${{ secrets.CERTIFICATE_PASSWORD }}
       - name: "Release"
         run: |
           echo "Build the project"
