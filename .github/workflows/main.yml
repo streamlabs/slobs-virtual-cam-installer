@@ -26,7 +26,7 @@ jobs:
           PROVISIONING_PROFILE: ${{ secrets.APPLE_DEVELOPER_PROVISIONING_PROFILE }}
         run: |
           mkdir -p "~/Library/Developer/Xcode/UserData/Provisioning\ Profiles"
-          base64 --decode > ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/Profile.mobileprovision
+          echo "${{ PROVISIONING_PROFILE }}" | base64 --decode > ~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/Profile.mobileprovision
       - name: "Release"
         run: |
           echo "Build the project"
