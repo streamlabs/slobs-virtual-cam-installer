@@ -3,7 +3,6 @@ name: Mac Release
 on: [push]
 
 env:
-  InstallPath: "obs-studio-node"
   RELEASE_BUCKET: "obsstudionodes3.streamlabs.com" # Reuse the OSN bucket
   SLDistributeDirectory: distribute
   SLFullDistributePath: "build"
