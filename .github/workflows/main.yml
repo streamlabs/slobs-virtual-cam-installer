@@ -1,11 +1,6 @@
 name: Mac Release
 
-on:
-  workflow_dispatch:
-    inputs:
-      arch:
-        description: "Target Architecture (e.g., x86, arm64)"
-        required: true
+on: [push]
 
 env:
   InstallPath: "obs-studio-node"
@@ -16,7 +11,7 @@ env:
 
 jobs:
   mac_release:
-    name: "Release Version ${{ github.event.inputs.arch }}"
+    name: "Release Version"
     runs-on: "macos-13"
     strategy:
       matrix:
@@ -59,7 +54,6 @@ jobs:
         run: |
           ./build.sh
         env:
-          SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CI: true
           ARCH: ${{ matrix.arch }}
