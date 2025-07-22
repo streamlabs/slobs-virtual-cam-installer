@@ -16,7 +16,6 @@ jobs:
     strategy:
       matrix:
         arch: ["x86_64", "arm64"]
-        ReleaseName: release
     env:
       OS_TAG: "osx"
     steps:
