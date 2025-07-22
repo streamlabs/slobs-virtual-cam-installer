@@ -27,6 +27,15 @@ jobs:
         run: |
           mkdir -p "~/Library/Developer/Xcode/UserData/Provisioning\ Profiles"
           echo "$PROVISIONING_PROFILE" | base64 --decode > "~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/Profile.provisionprofile"
+      - name: Set Up Code Signing 🔑
+        uses: ./.github/actions/setup-macos-codesigning
+        id: codesign
+        with:
+          codesignIdentity: ${{ secrets.APPLE_TEAM_ID }}
+          codesignCertificate: ${{ secrets.APPLE_DEVELOPER_ID_P12 }}
+          certificatePassword: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
+          keychainPassword: ${{ secrets.APPLE_DEVELOPER_KEYCHAIN_PASSWORD }}
+          provisioningProfile: ${{ secrets.APPLE_DEVELOPER_PROVISIONING_PROFILE }}
       - name: "Release"
         run: |
           ./build.sh

@@ -33,7 +33,7 @@ if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
                 XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 
     # Switch to automatic codesigning via valid team ID
-    #set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
+    set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
     set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM $ENV{APPLE_TEAM_ID})
     #set(XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
