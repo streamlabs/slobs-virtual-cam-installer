@@ -29,12 +29,9 @@ jobs:
           echo "$PROVISIONING_PROFILE" | base64 --decode > "~/Library/Developer/Xcode/UserData/Provisioning\ Profiles/Profile.provisionprofile"
       - name: "Release"
         run: |
-          echo "Build the project"
           ./build.sh
         env:
           SLOBS_RELEASE_VERSION: ${{ github.event.inputs.version }}
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           CI: true
           ARCH: ${{ matrix.arch }}
