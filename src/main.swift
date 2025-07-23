@@ -3,6 +3,23 @@ import Foundation
 import SystemExtensions
 import os.log
 
+class AtomicBool {
+    private var value: Bool
+    private let queue = DispatchQueue(label: "AtomicBoolQueue")
+    
+    init(initialValue: Bool) {
+        self.value = initialValue
+    }
+
+    func get() -> Bool {
+        return queue.sync { value } // Safely read
+    }
+
+    func set(newValue: Bool) {
+        queue.sync { value = newValue } // Safely write
+    }
+}
+
 class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func activate() {
@@ -29,6 +46,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         os_log(
             "Replacing extension. Existing: %@, New: %@", String(describing: existing),
             String(describing: ext))
+        isDone.set(newValue: true)
 
         return .replace
     }
@@ -36,7 +54,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
         print(
             "Please approve the system extension request in System Settings > Privacy & Security.")
-
+        isDone.set(newValue: true)
     }
 
     func request(
@@ -55,10 +73,16 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         @unknown default:
             print("System extension request finished with an unknown result.")
         }
+        isDone.set(newValue: true)
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
+        isDone.set(newValue: true)
+    }
+    
+    func isFinished() -> Bool {
+        return isDone.get()
     }
     
     enum InstallState {
@@ -67,6 +91,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         case uninstalling
     }
     var state : InstallState = InstallState.unknown
+    var isDone : AtomicBool = AtomicBool(initialValue: false)
 }
 
 let installer = ExtensionManager()
@@ -84,4 +109,10 @@ if arguments.count > 1 && arguments[1] == "--deactivate" {
 dispatchGroup.notify(queue: .main) {
     print("Operation complete.")
 }
-RunLoop.main.run(until: Date().addingTimeInterval(10))  // Give the script time to wait on the callback
+
+let stopTime = Date().addingTimeInterval(10) // Set the maximum time to wait
+
+while !installer.isFinished() && Date() < stopTime {
+    // Process one cycle of the RunLoop and exit if there's no input
+    RunLoop.main.run(mode: RunLoopMode.defaultRunLoopMode, before: Date().addingTimeInterval(0.1))
+}
