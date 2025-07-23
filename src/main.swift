@@ -3,23 +3,6 @@ import Foundation
 import SystemExtensions
 import os.log
 
-class AtomicBool {
-    private var value: Bool
-    private let queue = DispatchQueue(label: "AtomicBoolQueue")
-    
-    init(initialValue: Bool) {
-        self.value = initialValue
-    }
-
-    func get() -> Bool {
-        return queue.sync { value } // Safely read
-    }
-
-    func set(newValue: Bool) {
-        queue.sync { value = newValue } // Safely write
-    }
-}
-
 class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func activate() {
@@ -46,7 +29,9 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         os_log(
             "Replacing extension. Existing: %@, New: %@", String(describing: existing),
             String(describing: ext))
-        isDone.set(newValue: true)
+        DispatchQueue.main.async {
+            self.isDone = true
+        }
 
         return .replace
     }
@@ -54,7 +39,9 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
         print(
             "Please approve the system extension request in System Settings > Privacy & Security.")
-        isDone.set(newValue: true)
+        DispatchQueue.main.async {
+            self.isDone = true
+        }
     }
 
     func request(
@@ -73,16 +60,20 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         @unknown default:
             print("System extension request finished with an unknown result.")
         }
-        isDone.set(newValue: true)
+        DispatchQueue.main.async {
+            self.isDone = true
+        }
     }
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
-        isDone.set(newValue: true)
+        DispatchQueue.main.async {
+            self.isDone = true
+        }
     }
     
     func isFinished() -> Bool {
-        return isDone.get()
+        return isDone
     }
     
     enum InstallState {
@@ -91,7 +82,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         case uninstalling
     }
     var state : InstallState = InstallState.unknown
-    var isDone : AtomicBool = AtomicBool(initialValue: false)
+    var isDone : Bool = false
 }
 
 let installer = ExtensionManager()
