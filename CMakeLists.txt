@@ -2,6 +2,21 @@ cmake_minimum_required(VERSION 3.22...3.25)
 project(slobs-vcam-installer)
 enable_language(Swift)
 
+execute_process(COMMAND git clone --branch "${CAMERA_EXTENSION_GIT_TAG_VER}" --depth 1 https://github.com/streamlabs/obs-studio.git)
+
+file(COPY "obs-studio/plugins/mac-virtualcam/src/camera-extension" DESTINATION "${CMAKE_SOURCE_DIR}")
+
+
+# Overwrite the default OBS CMakeLists.txt
+execute_process(COMMAND cp camera-extension/slobs-CMakeLists.cmake camera-extension/CMakeLists.txt)
+file(COPY "obs-studio/plugins/mac-virtualcam/src/common/data/placeholder.png" DESTINATION "${CMAKE_SOURCE_DIR}/common/data/")
+
+# We need to use the virtual cam UUIDs from SLOBS
+execute_process(COMMAND cp obs-studio/CMakePresets.json camera-extension/)
+
+file(REMOVE_RECURSE obs-studio/) # we no longer need the entire obs folder
+add_subdirectory(camera-extension)
+
 set(SOURCES
     src/main.swift
 )
@@ -36,15 +51,14 @@ if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
     set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM $ENV{APPLE_TEAM_ID})
-    #set(XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 
-    # Run shell script to install the mac-camera-extension
-    add_custom_target(run_script ALL
-        COMMAND ${CMAKE_COMMAND} -E echo "Running the shell script..."
-        COMMAND bash "./install-mac-camera-ext.sh" "${CAMERA_EXTENSION_GIT_TAG_VER}"
-        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-        COMMENT "Executing script.sh from CMake"
-    )
+    add_custom_command(
+        TARGET SlobsVirtualCamInstaller
+        POST_BUILD
+        COMMAND
+        "${CMAKE_COMMAND}" -E copy_directory "$<TARGET_BUNDLE_DIR:mac-camera-extension>"
+        "$<TARGET_BUNDLE_CONTENT_DIR:SlobsVirtualCamInstaller>/Library/SystemExtensions/$<TARGET_BUNDLE_DIR_NAME:mac-camera-extension>"
+        COMMENT "Add Camera Extension to application bundle")
 else()
     message(STATUS "APPLE_TEAM_ID is not set. Do not codesign the xcodeproj")
     set_target_properties(
