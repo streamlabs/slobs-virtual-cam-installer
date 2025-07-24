@@ -2,9 +2,20 @@
 
 This Swift application installs the mac-camera-system-extension.
 
+# Prerequisites
+
+CMake (minimum 3.22) and xcode 15.2
+
 # How to Build
 
-Run the `build.sh` script. When you open xcode you'll likely want to switch to "ALL_BUILD" because you'll be in Debug (the script only builds `RelWithDebInfo`). This will ensure everything is fully built for your active config (Debug, Release, RelWithDebInfo)
+Run the following commands:
+
+```
+cmake --preset macos
+cmake --build build --preset macos
+```
+
+When you open xcode you'll likely want to switch to "ALL_BUILD" because you'll be in Debug (the script only builds `RelWithDebInfo`). This will ensure everything is fully built for your active config (Debug, Release, RelWithDebInfo)
 
 # How to run
 
