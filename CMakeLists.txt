@@ -13,7 +13,16 @@ file(COPY "obs-studio/plugins/mac-virtualcam/src/common/data/placeholder.png" DE
 
 # We need to use the virtual cam UUIDs from SLOBS
 execute_process(COMMAND cp obs-studio/CMakePresets.json camera-extension/)
-execute_process(COMMAND node copyVirtualCamGUID.js)
+execute_process(COMMAND node checkVirtualCamGUID.js
+    ERROR_VARIABLE error
+    RESULT_VARIABLE result
+    )
+
+if(NOT result EQUAL 0)
+    message(FATAL_ERROR "Error occurred: ${error}")
+else()
+    message(STATUS "Command succeeded: ${output}")
+endif()
 
 file(REMOVE_RECURSE obs-studio/) # we no longer need the entire obs folder
 add_subdirectory(camera-extension)
