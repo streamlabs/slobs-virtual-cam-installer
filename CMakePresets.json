@@ -23,10 +23,7 @@
       "generator": "Xcode",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CAMERA_EXTENSION_GIT_TAG_VER": {"type": "STRING", "value": "30.2.4sl34-vcam"},
-        "VIRTUALCAM_DEVICE_UUID": {"type": "STRING", "value": "6FA459EA-EE8A-3CA4-894E-DB77E160355E"},
-        "VIRTUALCAM_SOURCE_UUID": {"type": "STRING", "value": "1E2D9632-D9A4-445C-B3CB-7C474442C1DF"},
-        "VIRTUALCAM_SINK_UUID": {"type": "STRING", "value": "CE9DCB01-5C0C-4F3E-AC1A-971D26CB77D1"}
+        "CAMERA_EXTENSION_GIT_TAG_VER": {"type": "STRING", "value": "30.2.4sl34"}
       }
     }
   ],
