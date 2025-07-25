@@ -14,6 +14,7 @@ jobs:
     runs-on: ${{ matrix.image }}
     strategy:
       matrix:
+        BuildReleases: [Release-x86_64, Release-arm64]
         include:
           - BuildReleases: Release-x86_64
             image: macos-13

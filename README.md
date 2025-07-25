@@ -4,7 +4,7 @@ This Swift application installs the mac-camera-system-extension.
 
 # Prerequisites
 
-CMake (minimum 3.22), NodeJS, and xcode 15.2
+CMake (minimum 3.22) and xcode 15.2
 
 # How to Build
 
