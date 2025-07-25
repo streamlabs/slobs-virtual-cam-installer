@@ -61,14 +61,6 @@ if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
     set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
     set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM $ENV{APPLE_TEAM_ID})
-
-    add_custom_command(
-        TARGET SlobsVirtualCamInstaller
-        POST_BUILD
-        COMMAND
-        "${CMAKE_COMMAND}" -E copy_directory "$<TARGET_BUNDLE_DIR:mac-camera-extension>"
-        "$<TARGET_BUNDLE_CONTENT_DIR:SlobsVirtualCamInstaller>/Library/SystemExtensions/$<TARGET_BUNDLE_DIR_NAME:mac-camera-extension>"
-        COMMENT "Add Camera Extension to application bundle")
 else()
     message(STATUS "APPLE_TEAM_ID is not set. Do not codesign the xcodeproj")
     set_target_properties(
