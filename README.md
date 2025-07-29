@@ -26,8 +26,10 @@ By default, if no arguments are passed, the app will attempt to install the virt
 After its' built, copy the app file into your Applications folder. This is a console app so when double clicked you will not see output so it is best to run it from bash from the Applications folder like so:
 
 ```
-# Copy the artifact into your applications folder.
 cp -R build/RelWithDebInfo/slobs-virtual-cam-installer.app /Applications
 cd /Applications
 ./slobs-virtual-cam-installer.app/Contents/MacOS/slobs-virtual-cam-installer
+echo $?
 ```
+
+Notice the addition of the `echo $?` bash command which will display the application exit code.

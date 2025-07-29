@@ -39,6 +39,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
         print(
             "Please approve the system extension request in System Settings > Privacy & Security.")
+        self.exitCode = CustomErrorCode.userApprovalRequired.rawValue
         DispatchQueue.main.async {
             self.isDone = true
         }
@@ -57,8 +58,10 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
             }
         case OSSystemExtensionRequest.Result.willCompleteAfterReboot:
             print("System extension will complete after reboot.")
+            self.exitCode = CustomErrorCode.rebootRequired.rawValue
         @unknown default:
             print("System extension request finished with an unknown result.")
+            self.exitCode = CustomErrorCode.unknownError.rawValue
         }
         DispatchQueue.main.async {
             self.isDone = true
@@ -67,6 +70,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
+        self.exitCode = error._code
         DispatchQueue.main.async {
             self.isDone = true
         }
@@ -81,8 +85,14 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         case installing
         case uninstalling
     }
+    enum CustomErrorCode : Int {
+        case rebootRequired = 100
+        case userApprovalRequired = 101
+        case unknownError = 999
+    }
     var state : InstallState = InstallState.unknown
     var isDone : Bool = false
+    var exitCode : Int = 0
 }
 
 let installer = ExtensionManager()
@@ -107,3 +117,5 @@ while !installer.isFinished() && Date() < stopTime {
     // Process one cycle of the RunLoop and exit if there's no input
     RunLoop.main.run(mode: RunLoopMode.defaultRunLoopMode, before: Date().addingTimeInterval(0.1))
 }
+
+exit(Int32(installer.exitCode))
