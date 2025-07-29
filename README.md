@@ -1,6 +1,6 @@
 # Description
 
-This Swift application installs the mac-camera-system-extension.
+This Swift application installs the streamlabs/obs-studio mac virtual camera system extension on the user's system.
 
 # Prerequisites
 
@@ -15,7 +15,11 @@ cmake --preset macos
 cmake --build build --preset macos
 ```
 
-When you open xcode you'll likely want to switch to "ALL_BUILD" because you'll be in Debug (the script only builds `RelWithDebInfo`). This will ensure everything is fully built for your active config (Debug, Release, RelWithDebInfo)
+The scripts will build `RelWithDebInfo` and pack the camera extension inside the app bundle.
+
+# Command line arguments
+
+By default, if no arguments are passed, the app will attempt to install the virtual camera system extension. If the `--deactivate` option is passed, then it will attempt to uninstall it.
 
 # How to run
 
