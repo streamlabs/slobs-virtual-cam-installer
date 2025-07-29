@@ -39,8 +39,8 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func requestNeedsUserApproval(_ request: OSSystemExtensionRequest) {
         print(
             "Please approve the system extension request in System Settings > Privacy & Security.")
-        self.exitCode = CustomErrorCode.userApprovalRequired.rawValue
         DispatchQueue.main.async {
+            self.exitCode = CustomErrorCode.userApprovalRequired.rawValue
             self.isDone = true
         }
     }
@@ -51,17 +51,21 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     ) {
         switch result {
         case OSSystemExtensionRequest.Result.completed:
-            if (state == InstallState.installing) {
+            if state == InstallState.installing {
                 print("System extension was installed successfully.")
-            } else if (state == InstallState.uninstalling) {
+            } else if state == InstallState.uninstalling {
                 print("System extension was uninstalled successfully.")
             }
         case OSSystemExtensionRequest.Result.willCompleteAfterReboot:
             print("System extension will complete after reboot.")
-            self.exitCode = CustomErrorCode.rebootRequired.rawValue
+            DispatchQueue.main.async {
+                self.exitCode = CustomErrorCode.rebootRequired.rawValue
+            }
         @unknown default:
             print("System extension request finished with an unknown result.")
-            self.exitCode = CustomErrorCode.unknownError.rawValue
+            DispatchQueue.main.async {
+                self.exitCode = CustomErrorCode.unknownError.rawValue
+            }
         }
         DispatchQueue.main.async {
             self.isDone = true
@@ -70,29 +74,29 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func request(_ request: OSSystemExtensionRequest, didFailWithError error: Error) {
         print("error: \(error.localizedDescription) code:\(error._code)")
-        self.exitCode = error._code
         DispatchQueue.main.async {
+            self.exitCode = error._code
             self.isDone = true
         }
     }
-    
+
     func isFinished() -> Bool {
         return isDone
     }
-    
+
     enum InstallState {
         case unknown
         case installing
         case uninstalling
     }
-    enum CustomErrorCode : Int {
+    enum CustomErrorCode: Int {
         case rebootRequired = 100
         case userApprovalRequired = 101
         case unknownError = 999
     }
-    var state : InstallState = InstallState.unknown
-    var isDone : Bool = false
-    var exitCode : Int = 0
+    var state: InstallState = InstallState.unknown
+    var isDone: Bool = false
+    var exitCode: Int = 0
 }
 
 let installer = ExtensionManager()
@@ -111,7 +115,7 @@ dispatchGroup.notify(queue: .main) {
     print("Operation complete.")
 }
 
-let stopTime = Date().addingTimeInterval(10) // Set the maximum time to wait
+let stopTime = Date().addingTimeInterval(10)  // Set the maximum time to wait
 
 while !installer.isFinished() && Date() < stopTime {
     // Process one cycle of the RunLoop and exit if there's no input
