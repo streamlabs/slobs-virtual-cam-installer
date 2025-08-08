@@ -8,7 +8,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func activate() {
         state = InstallState.installing
         let activationRequest = OSSystemExtensionRequest.activationRequest(
-            forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
+            forExtensionWithIdentifier: "com.streamlabs.slobs", queue: .main)
         activationRequest.delegate = self
         OSSystemExtensionManager.shared.submitRequest(activationRequest)
     }
@@ -16,7 +16,7 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
     func deactivate() {
         state = InstallState.uninstalling
         let activationRequest = OSSystemExtensionRequest.deactivationRequest(
-            forExtensionWithIdentifier: "com.streamlabs.slobs.mac-camera-extension", queue: .main)
+            forExtensionWithIdentifier: "com.streamlabs.slobs", queue: .main)
         activationRequest.delegate = self
         OSSystemExtensionManager.shared.submitRequest(activationRequest)
     }

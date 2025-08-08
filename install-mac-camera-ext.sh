@@ -15,4 +15,4 @@ echo "Build the mac-camera-extension on $checkArch"
 echo "Copy system extension into the app bundle at Contents/Library/SystemExtensions folder"
 cd "$root"
 mkdir -p ./RelWithDebInfo/slobs-virtual-cam-installer.app/Contents/Library/SystemExtensions/
-cp -R obs-studio/plugins/mac-virtualcam/src/camera-extension/build_macos/RelWithDebInfo/com.streamlabs.slobs.mac-camera-extension.systemextension "$root"/RelWithDebInfo/slobs-virtual-cam-installer.app/Contents/Library/SystemExtensions/
+cp -R obs-studio/plugins/mac-virtualcam/src/camera-extension/build_macos/RelWithDebInfo/com.streamlabs.slobs.systemextension "$root"/RelWithDebInfo/slobs-virtual-cam-installer.app/Contents/Library/SystemExtensions/
