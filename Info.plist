@@ -1,14 +1,24 @@
-<!--?xml version="1.0" encoding="UTF-8"?-->
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>com.apple.security.app-sandbox</key>
-        <true/>
-        <key>com.apple.security.application-groups</key>
-        <array>
-            <string>$(TeamIdentifierPrefix)com.streamlabs.slobs</string>
-        </array>
-        <key>CFBundleIdentifier</key>
-        <string>com.streamlabs.slobs</string>
-    </dict>
+<dict>
+	<key>CFBundleName</key>
+	<string>slobs-installer</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.streamlabs.slobs.camera-extension-installer</string>
+	<key>CFBundleVersion</key>
+	<string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${MACOSX_BUNDLE_SHORT_VERSION_STRING}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleExecutable</key>
+	<string>slobs-virtual-cam-installer</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+	<key>CFBundleSupportedPlatforms</key>
+	<array>
+		<string>MacOSX</string>
+	</array>
+</dict>
 </plist>
