@@ -23,7 +23,7 @@
       "generator": "Xcode",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CAMERA_EXTENSION_GIT_TAG_VER": {"type": "STRING", "value": "30.2.4sl36-vcam"}
+        "CAMERA_EXTENSION_GIT_TAG_VER": {"type": "STRING", "value": "30.2.4sl34"}
       }
     }
   ],
