@@ -28,15 +28,14 @@ if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
                 RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
                 MACOSX_BUNDLE ON
                 MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/Info.plist"
-                XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.streamlabs.slobs
+                XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "$ENV{APPLE_TEAM_ID}"
+                XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER com.streamlabs.slobs.camera-extension-installer
                 XCODE_ATTRIBUTE_CODE_SIGN_ENTITLEMENTS "${CMAKE_CURRENT_SOURCE_DIR}/entitlements.plist"
                 XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
 
     # Switch to automatic codesigning via valid team ID
-    set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
-    set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "Apple Development")
-    set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM $ENV{APPLE_TEAM_ID})
-    #set(XCODE_ATTRIBUTE_PRODUCT_NAME slobs-virtual-cam-installer)
+set(CMAKE_XCODE_ATTRIBUTE_CODE_SIGN_STYLE Automatic)
+set(CMAKE_XCODE_ATTRIBUTE_DEVELOPMENT_TEAM "$ENV{APPLE_TEAM_ID}")
 
     # Run shell script to install the mac-camera-extension
     add_custom_target(run_script ALL
