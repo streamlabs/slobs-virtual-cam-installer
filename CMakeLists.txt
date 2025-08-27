@@ -20,6 +20,8 @@ target_link_libraries(SlobsVirtualCamInstaller PRIVATE
     swiftFoundation
 )
 
+set(CMAKE_OSX_DEPLOYMENT_TARGET 10.15)
+
 if(DEFINED ENV{APPLE_TEAM_ID} AND NOT $ENV{APPLE_TEAM_ID} STREQUAL "")
     message(STATUS "APPLE_TEAM_ID is set. Setup codesign for xcode project")
     set_target_properties(
