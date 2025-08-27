@@ -3,6 +3,13 @@ import Foundation
 import SystemExtensions
 import os.log
 
+enum CustomErrorCode: Int {
+    case rebootRequired = 100
+    case userApprovalRequired = 101
+    case unsupportedOSVersion = 102
+    case unknownError = 999
+}
+
 class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
 
     func activate() {
@@ -89,17 +96,18 @@ class ExtensionManager: NSObject, OSSystemExtensionRequestDelegate {
         case installing
         case uninstalling
     }
-    enum CustomErrorCode: Int {
-        case rebootRequired = 100
-        case userApprovalRequired = 101
-        case unknownError = 999
-    }
+
     var state: InstallState = InstallState.unknown
     var isDone: Bool = false
     var exitCode: Int = 0
 }
 
 let installer = ExtensionManager()
+
+if #unavailable(macOS 13.0) {
+    print("Running on an earlier macOS version (<13.0), which is not supported. Aborting.")
+    exit(Int32(CustomErrorCode.unsupportedOSVersion.rawValue))
+}
 let dispatchGroup = DispatchGroup()
 dispatchGroup.enter()
 
