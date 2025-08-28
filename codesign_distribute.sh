@@ -2,12 +2,16 @@
 root=$(pwd)
 cd build/RelWithDebInfo
 
+if [ -z "${APPLE_DEVELOPER_PROVISIONING_PROFILE}" ]; then
+  echo "Error: APPLE_DEVELOPER_PROVISIONING_PROFILE is not set."
+  exit 1
+fi
+
 /usr/bin/codesign -o runtime --force --sign "Developer ID Application: ${APPLE_SLD_IDENTITY}" --entitlements "$root"/build/camera-ext-entitlements.plist --timestamp slobs-virtual-cam-installer.app/Contents/Library/SystemExtensions/com.streamlabs.slobs.mac-camera-extension.systemextension
 
-if [ -n "$MY_VAR" ]; then
-  echo "$0 replace provisioning profile"
-  cp -R "$SYSEXT_INSTALLER_PROVISIONING_PROFILE" slobs-virtual-cam-installer.app/Contents/embedded.provisionprofile
-fi
+echo "$0 replace provisioning profile"
+cp -R "$APPLE_DEVELOPER_PROVISIONING_PROFILE" slobs-virtual-cam-installer.app/Contents/embedded.provisionprofile
+
 
 /usr/bin/codesign -o runtime --force --sign "Developer ID Application: ${APPLE_SLD_IDENTITY}" --entitlements "$root"/entitlements.plist --timestamp /Users/rosbo/projects/streamlabs/slobs-vcam-installer/build/RelWithDebInfo/slobs-virtual-cam-installer.app
 
