@@ -16,7 +16,6 @@ function display_usage {
 
 if [[ ( "$1" == "--help" ) || ( "$1" == "-h" ) ]]; then
   display_usage
-  exit 0
 fi
 
 cd "$(dirname "$0")"
