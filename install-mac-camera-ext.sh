@@ -10,7 +10,7 @@ cd obs-studio/plugins/mac-virtualcam/src/camera-extension
 checkArch=$(arch)
 echo "Build the mac-camera-extension on $checkArch"
 
-./build-slobs-cameraextension.sh
+./build-slobs-cameraextension.sh "$2"
 
 echo "Copy system extension into the app bundle at Contents/Library/SystemExtensions folder"
 cd "$root"
