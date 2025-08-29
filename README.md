@@ -8,7 +8,8 @@ CMake (minimum 3.22) and xcode 15.2
 
 # How to Build
 
-Run the following commands:
+Make sure you define the `APPLE_TEAM_ID` environment variable which is required because the build scripts will download the slobs-mac-virtual camera system extension and codesign it.
+Run the following commands below (or just run `build.sh` script):
 
 ```
 cmake --preset macos
