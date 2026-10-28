@@ -34,3 +34,11 @@ echo $?
 ```
 
 Notice the addition of the `echo $?` bash command which will display the application exit code.
+
+# CI build notes
+
+The CI build does not code sign the app. When Streamlabs Desktop packages the installer, it replaces the provisioning profile, code signature, and entitlements with Streamlabs' Developer ID. Because of this, the standalone app produced by CI can't activate the camera extension as-is.
+
+To test the standalone app, either:
+- Build it locally with `./build.sh`, which signs it automatically (requires an Apple account on the Streamlabs team signed in under Xcode → Settings → Accounts), or
+- Sign the CI artifact yourself: embed a provisioning profile, then codesign the system extension and the app with their entitlements (see `codesign_development.sh`).
