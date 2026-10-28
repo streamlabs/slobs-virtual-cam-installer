@@ -41,4 +41,4 @@ The CI build does not code sign the app. When Streamlabs Desktop packages the in
 
 To test the standalone app, either:
 - Build it locally with `./build.sh`, which signs it automatically (requires an Apple account on the Streamlabs team signed in under Xcode → Settings → Accounts), or
-- Sign the CI artifact yourself: embed a provisioning profile, then codesign the system extension and the app with their entitlements (see `codesign_development.sh`).
+- Sign the CI artifact yourself: extract the app bundle into `build/RelWithDebInfo/`. From the `streamlabs/obs-studio` revision used to build that artifact, copy `plugins/mac-virtualcam/src/camera-extension/cmake/macos/slobs-entitlements.plist` to `build/camera-ext-entitlements.plist` (the CI tarball does not include this file). Embed the appropriate provisioning profiles, then codesign the system extension and the app with their entitlements, using `codesign_development.sh` as a reference.
