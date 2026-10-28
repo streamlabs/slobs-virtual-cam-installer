@@ -35,22 +35,12 @@ jobs:
         shell: bash
       - name: Check out repository
         uses: actions/checkout@v7
-      - name: Set Up Code Signing 🔑
-        uses: ./.github/actions/setup-macos-codesigning
-        id: codesign
-        with:
-          codesignIdentity: ${{ secrets.APPLE_TEAM_ID }}
-          codesignCertificate: ${{ secrets.APPLE_DEVELOPER_ID_P12 }}
-          certificatePassword: ${{ secrets.APPLE_DEVELOPER_ID_P12_PASSWORD }}
-          keychainPassword: ${{ secrets.APPLE_DEVELOPER_KEYCHAIN_PASSWORD }}
-          provisioningProfile: ${{ secrets.APPLE_DEVELOPER_PROVISIONING_PROFILE }}
       - name: "Release"
         run: |
-          ./build.sh
+          ./build.sh --arch=${{ matrix.Architecture }}
         env:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
           CI: true
-          ARCH: ${{ matrix.Architecture }}
       - name: Tar artifact for deployment
         if: startsWith(github.ref, 'refs/tags/')
         run: |

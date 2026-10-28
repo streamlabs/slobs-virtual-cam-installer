@@ -33,5 +33,15 @@ do
   fi
 done
 
+build_args=()
+if [[ -n "$CI" ]]; then
+  # Build unsigned on CI; Streamlabs Desktop signs the installer when packaging it.
+  # Passed as an env var so the nested camera-extension build picks it up too.
+  export CMAKE_TOOLCHAIN_FILE="$(pwd)/cmake/ci-disable-codesign.cmake"
+else
+  # Local builds use automatic signing via the account signed into Xcode
+  build_args+=(-allowProvisioningUpdates)
+fi
+
 cmake --preset macos "${cmake_args[@]}"
-cmake --build build --preset macos
+cmake --build build --preset macos -- "${build_args[@]}"
