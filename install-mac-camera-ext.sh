@@ -1,6 +1,6 @@
-# Usage: install-mac-camera-ext.sh <git tag version>
+# Usage: install-mac-camera-ext.sh <branch name>
 cd build
-echo "Download mac_camera_extension using git tag $1"
+echo "Download mac_camera_extension using branch $1"
 git clone --branch "$1" --depth 1 https://github.com/streamlabs/obs-studio.git
 
 root=$(pwd)

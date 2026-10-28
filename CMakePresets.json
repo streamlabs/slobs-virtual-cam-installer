@@ -25,7 +25,7 @@
       "cacheVariables": {
         "CAMERA_EXTENSION_GIT_TAG_VER": {
           "type": "STRING",
-          "value": "30.2.4sl38"
+          "value": "streamlabs"
         }
       }
     }
