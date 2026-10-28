@@ -39,6 +39,4 @@ Notice the addition of the `echo $?` bash command which will display the applica
 
 The CI build does not code sign the app. When Streamlabs Desktop packages the installer, it replaces the provisioning profile, code signature, and entitlements with Streamlabs' Developer ID. Because of this, the standalone app produced by CI can't activate the camera extension as-is.
 
-To test the standalone app, either:
-- Build it locally with `./build.sh`, which signs it automatically (requires an Apple account on the Streamlabs team signed in under Xcode → Settings → Accounts), or
-- Sign the CI artifact yourself: extract the app bundle into `build/RelWithDebInfo/`. From the `streamlabs/obs-studio` revision used to build that artifact, copy `plugins/mac-virtualcam/src/camera-extension/cmake/macos/slobs-entitlements.plist` to `build/camera-ext-entitlements.plist` (the CI tarball does not include this file). Embed the appropriate provisioning profiles, then codesign the system extension and the app with their entitlements, using `codesign_development.sh` as a reference.
+To test the standalone app, build it locally with `./build.sh`, which signs it automatically (requires an Apple account on the Streamlabs team signed in under Xcode → Settings → Accounts).
